@@ -19,7 +19,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     >
       <div className="relative w-full h-60">
         <Image
-          src={product.image_url ?? '/placeholder.png'}
+          src={product.images && product.images.length > 0 ? product.images[0] : '/placeholder.png'}
           alt={product.name ?? 'Product Image'}
           fill
           style={{ objectFit: 'cover' }}
