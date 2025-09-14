@@ -1,7 +1,7 @@
 // /components/ProductCard.tsx
 import Image from 'next/image';
 import Link from 'next/link';
-import { Product } from '@/app/page';
+import { Product } from '@/types/supabase'; // <-- CORRECT
 
 interface ProductCardProps {
   product: Product;
