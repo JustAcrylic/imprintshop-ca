@@ -3,6 +3,8 @@ import { createClient } from '@/lib/supabase/server';
 import ProductCard from '@/components/ProductCard';
 import { Product } from '@/types/supabase';
 
+// Forcing a fresh build
+
 export default async function HomePage() {
   const supabase = await createClient();
   const { data: products } = await supabase.from('products').select('*').limit(8);
