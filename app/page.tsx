@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'; // Assumes you have a serv
 import ProductCard from '@/components/ProductCard';
 
 export default async function HomePage() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: products } = await supabase.from('products').select('*').limit(8);
 
   return (
