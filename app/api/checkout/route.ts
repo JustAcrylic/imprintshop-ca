@@ -1,36 +1,50 @@
-// /app/api/checkout/route.ts
+// /app/api/shipping/route.ts
 import { NextResponse } from 'next/server';
-import Stripe from 'stripe';
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(request: Request) {
-  const { cartItems } = await request.json(); // Expects an array of items
+  const { weight, dimensions, destination } = await request.json();
+  const UPS_API_KEY = process.env.UPS_API_KEY;
 
-  const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = cartItems.map((item: any) => ({
-    price_data: {
-      currency: 'cad',
-      product_data: {
-        name: item.name,
-        images: [item.image_url],
+  const upsRequestBody = {
+    RateRequest: {
+      Shipment: {
+        Shipper: {
+          Address: { PostalCode: 'L1H 8L9', CountryCode: 'CA' }, // Your Oshawa origin postal code
+        },
+        ShipTo: {
+          Address: { PostalCode: destination.postalCode, CountryCode: 'CA' },
+        },
+        Package: {
+          PackagingType: { Code: '02' },
+          Dimensions: {
+            UnitOfMeasurement: { Code: 'CM' },
+            Length: dimensions.length.toString(),
+            Width: dimensions.width.toString(),
+            Height: dimensions.height.toString(),
+          },
+          PackageWeight: {
+            UnitOfMeasurement: { Code: 'KGS' },
+            Weight: (weight / 1000).toString(),
+          },
+        },
       },
-      unit_amount: Math.round(item.pricePerItem * 100), // Price in cents
     },
-    quantity: item.quantity,
-  }));
+  };
 
   try {
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: lineItems,
-      mode: 'payment',
-      success_url: `${request.headers.get('origin')}/order/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${request.headers.get('origin')}/cart`,
-      invoice_creation: { enabled: true }, // Generate an invoice
+    const response = await fetch('https://wwwcie.ups.com/json/Rate', { // NOTE: This is the UPS test URL
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'AccessLicenseNumber': UPS_API_KEY!,
+      },
+      body: JSON.stringify(upsRequestBody),
     });
-
-    return NextResponse.json({ sessionId: session.id });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    const data = await response.json();
+    const estimatedCost = data.RateResponse.RatedShipment.TotalCharges.MonetaryValue;
+    return NextResponse.json({ cost: parseFloat(estimatedCost) });
+  } catch (error) {
+    console.error('UPS API Error:', error);
+    return NextResponse.json({ error: 'Failed to fetch shipping estimate' }, { status: 500 });
   }
 }

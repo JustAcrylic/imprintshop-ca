@@ -1,25 +1,19 @@
-'use client'; // Add this directive for components with client-side interactivity
-
+// /components/Header.tsx
 import Link from 'next/link';
 
 export default function Header() {
   return (
     <header className="bg-white shadow-md">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <Link href="/" className="text-2xl font-bold text-gray-800">
-          imprintshop.ca
+      <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <Link href="/" className="text-2xl font-bold text-blue-600">
+          ImprintShop.ca
         </Link>
-        <nav className="space-x-4">
-          <Link href="/" className="text-gray-600 hover:text-blue-600">
-            Home
+        <div>
+          <Link href="/cart" className="text-gray-600 hover:text-blue-600">
+            Cart
           </Link>
-          <Link href="/blog" className="text-gray-600 hover:text-blue-600">
-            Blog
-          </Link>
-          {/* Add other links like "Products" or "About" here later */}
-        </nav>
-      </div>
+        </div>
+      </nav>
     </header>
   );
 }
-

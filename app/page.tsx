@@ -1,19 +1,36 @@
 // /app/page.tsx
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
 import ProductCard from '@/components/ProductCard';
+import { createServerComponentClient } from '@supabase/ssr';
+import { cookies } from 'next/headers';
+import { Database } from '@/types/supabase';
+
+export type Product = Database['public']['Tables']['products']['Row'];
 
 export default async function HomePage() {
-  const supabase = createServerComponentClient({ cookies });
-  const { data: products } = await supabase.from('products').select('*');
+  const supabase = createServerComponentClient<Database>({ cookies });
+  const { data: products, error } = await supabase.from('products').select('*');
+
+  if (error) {
+    return <p className="text-center text-red-500">Failed to load products.</p>;
+  }
 
   return (
-    <main className="container mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {products?.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+    <main className="container mx-auto px-4 py-12">
+      <div className="text-center mb-10">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900">Our Promotional Products</h1>
+        <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-600">
+          Browse our collection of customizable items perfect for your brand.
+        </p>
       </div>
+      {products && products.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      ) : (
+        <p className="text-center text-gray-500 mt-16">No products found.</p>
+      )}
     </main>
   );
 }
