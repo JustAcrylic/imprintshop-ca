@@ -1,58 +1,50 @@
-// /components/PricingSlider.tsx
 'use client';
-import { useState, useMemo } from 'react';
 
-type PriceBreak = { quantity: number; price: number };
+import { useState } from 'react';
+
+type PriceTier = {
+  quantity: number;
+  price: number;
+};
 
 interface PricingSliderProps {
-  priceBreaks: PriceBreak[];
-  maxQuantity?: number;
+  priceTiers: PriceTier[];
+  minQuantity: number;
+  maxQuantity: number;
 }
 
-export default function PricingSlider({ priceBreaks, maxQuantity = 500 }: PricingSliderProps) {
-  const [quantity, setQuantity] = useState(priceBreaks[0]?.quantity || 50);
+export default function PricingSlider({ priceTiers, minQuantity, maxQuantity }: PricingSliderProps) {
+  const [quantity, setQuantity] = useState(minQuantity);
 
-  const { pricePerItem, totalPrice } = useMemo(() => {
-    let currentPrice = priceBreaks[0]?.price || 0;
-    for (const p of [...priceBreaks].sort((a, b) => a.quantity - b.quantity)) {
-      if (quantity >= p.quantity) {
-        currentPrice = p.price;
-      } else {
-        break;
-      }
-    }
-    return {
-      pricePerItem: currentPrice,
-      totalPrice: quantity * currentPrice,
-    };
-  }, [quantity, priceBreaks]);
+  const calculatePricePerItem = (currentQuantity: number): number => {
+    // Find the highest quantity tier that is less than or equal to the current quantity
+    const applicableTier = [...priceTiers]
+      .sort((a, b) => b.quantity - a.quantity)
+      .find(tier => currentQuantity >= tier.quantity);
+    
+    // Default to the price of the lowest tier if no other tier is met
+    return applicableTier ? applicableTier.price : priceTiers[0]?.price || 0;
+  };
+  
+  const pricePerItem = calculatePricePerItem(quantity);
+  const totalPrice = (pricePerItem * quantity).toFixed(2);
 
   return (
-    <div className="p-4 border rounded-lg bg-white shadow">
-      <div className="flex justify-between items-center mb-4">
-        <div>
-          <label htmlFor="quantity" className="font-bold text-lg">Quantity</label>
-          <p className="text-2xl font-bold">{quantity}</p>
-        </div>
-        <div>
-          <p className="text-gray-600">Price per item</p>
-          <p className="text-2xl font-bold">${pricePerItem.toFixed(2)}</p>
-        </div>
-      </div>
+    <div>
+      <label htmlFor="quantity">Quantity: {quantity}</label>
       <input
         type="range"
         id="quantity"
-        min={priceBreaks[0]?.quantity || 1}
+        min={minQuantity}
         max={maxQuantity}
+        step="1"
         value={quantity}
-        onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
-        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+        onChange={(e) => setQuantity(Number(e.target.value))}
+        className="w-full"
       />
-      <div className="mt-4 text-right">
-        <p className="text-gray-600">Total Price</p>
-        <p className="text-3xl font-extrabold text-blue-600">
-          ${totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-        </p>
+      <div>
+        <p className="text-xl font-bold">${pricePerItem.toFixed(2)} / each</p>
+        <p className="text-2xl font-bold">Total: ${totalPrice}</p>
       </div>
     </div>
   );
