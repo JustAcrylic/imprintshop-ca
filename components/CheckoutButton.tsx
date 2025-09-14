@@ -1,4 +1,3 @@
-// /components/CheckoutButton.tsx
 'use client';
 import { loadStripe } from '@stripe/stripe-js';
 

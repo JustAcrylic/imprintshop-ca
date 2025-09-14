@@ -1,16 +1,35 @@
-// /app/products/[id]/page.tsx
-import { createServerComponentClient } from '@supabase/ssr';
+import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import PricingSlider from '@/components/PricingSlider';
 import { Database } from '@/types/supabase';
 
-type ProductPageProps = { params: { id: string } };
+type ProductPageProps = {
+  params: {
+    id: string;
+  };
+};
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const supabase = createServerComponentClient<Database>({ cookies });
-  const { data: product } = await supabase.from('products').select('*').eq('id', params.id).single();
+  const cookieStore = cookies();
+  const supabase = createServerClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value;
+        },
+      },
+    }
+  );
+
+  const { data: product } = await supabase
+    .from('products')
+    .select('*')
+    .eq('id', params.id)
+    .single();
 
   if (!product) {
     notFound();
@@ -27,9 +46,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
             style={{ objectFit: 'cover' }}
           />
         </div>
+
         <div>
-          <h1 className="text-4xl font-extrabold text-gray-900 mb-4">{product.name}</h1>
-          <p className="text-lg text-gray-600 mb-8">{product.description}</p>
+          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 mb-4">
+            {product.name}
+          </h1>
+          <p className="text-lg text-gray-600 mb-8">
+            {product.description}
+          </p>
+          
           <PricingSlider priceBreaks={product.pricing_data as any[]} />
         </div>
       </div>
