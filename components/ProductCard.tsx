@@ -8,9 +8,9 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const startingPrice = Array.isArray(product.pricing_data)
-    ? product.pricing_data[product.pricing_data.length - 1]?.price
-    : null;
+  const startingPrice = Array.isArray(product.price_tiers) && product.price_tiers.length > 0
+  ? product.price_tiers[0]?.price 
+  : null;
 
   return (
     <Link
