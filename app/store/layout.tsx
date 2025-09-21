@@ -1,28 +1,12 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+// app/store/layout.tsx
+import React from 'react';
 
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "ImprintShop.ca",
-  description: "Your source for custom branded merchandise in Canada.",
-};
-
-export default function RootLayout({
+export default function StoreLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Header />
-        {children}
-        <Footer />
-      </body>
-    </html>
-  );
+}) {
+  // This layout wraps around pages inside the /store directory.
+  // The main header, footer, and global styles are already in the root layout.
+  return <section className="container mx-auto px-4">{children}</section>;
 }
