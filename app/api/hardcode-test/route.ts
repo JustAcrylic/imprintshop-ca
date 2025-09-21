@@ -1,5 +1,6 @@
 // app/api/hardcode-test/route.ts
-import { createServerClient } from '@supabase/ssr';
+// Import the standard Supabase client
+import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -8,10 +9,8 @@ export async function GET() {
     const supabaseUrl = 'YOUR_SUPABASE_URL_HERE';
     const supabaseKey = 'YOUR_SUPABASE_ANON_KEY_HERE';
 
-    // This creates a temporary client that does NOT use environment variables
-    const supabase = createServerClient(supabaseUrl, supabaseKey, {
-      cookies: {},
-    });
+    // This creates a basic client that does NOT need cookies
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
     const { data, error } = await supabase.from('products').select('id').limit(1);
 
