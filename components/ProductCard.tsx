@@ -13,8 +13,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     : null;
 
   return (
-    // The fix is in this href path
-    <Link href={`/products/${product.id}`} className="block border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 group">
+    <Link href={`/store/products/${product.id}`} className="block border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 group">
       <div className="relative w-full h-60 bg-gray-200">
         <Image
           src={product.images && product.images.length > 0 ? product.images[0] : '/placeholder.png'}

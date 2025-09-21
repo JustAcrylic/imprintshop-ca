@@ -9,6 +9,7 @@ export default async function HomePage() {
 
   return (
     <main className="container mx-auto p-4">
+      <a href="/test" className="text-blue-500 text-2xl block">CLICK THIS TEST LINK</a>
       <div className="text-center my-8">
         <h1 className="text-4xl font-bold">Promotional Products in Canada</h1>
         <p className="text-lg text-gray-600 mt-2">Your source for custom branded merchandise.</p>
