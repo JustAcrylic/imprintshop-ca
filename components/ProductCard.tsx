@@ -1,36 +1,35 @@
-// /components/ProductCard.tsx
+// components/ProductCard.tsx
 import Image from 'next/image';
 import Link from 'next/link';
-import { Product } from '@/types/supabase'; // <-- CORRECT
+import { Product } from '@/types/supabase';
 
 interface ProductCardProps {
   product: Product;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  // Get the lowest price from the tiers for display
   const startingPrice = Array.isArray(product.price_tiers) && product.price_tiers.length > 0
-  ? product.price_tiers[0]?.price 
-  : null;
+    ? product.price_tiers[0]?.price
+    : null;
 
   return (
-    <Link
-      href={`/products/${product.id}`}
-      className="group block border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
-    >
-      <div className="relative w-full h-60">
+    <Link href={`/products/${product.id}`} className="block border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300">
+      <div className="relative w-full h-60 bg-gray-200">
         <Image
           src={product.images && product.images.length > 0 ? product.images[0] : '/placeholder.png'}
           alt={product.name ?? 'Product Image'}
           fill
           style={{ objectFit: 'cover' }}
-          className="group-hover:scale-105 transition-transform duration-300"
+          className="transition-transform duration-300 group-hover:scale-105"
         />
       </div>
       <div className="p-4 bg-white">
-        <h3 className="text-lg font-bold text-gray-800 truncate">{product.name}</h3>
-        {startingPrice && (
-          <p className="text-sm text-gray-600 mt-1">
-            As low as ${Number(startingPrice).toFixed(2)}
+        <h3 className="font-bold text-lg text-gray-800 truncate">{product.name}</h3>
+        <p className="text-sm text-gray-500 mt-1">{product.category ?? 'General'}</p>
+        {startingPrice !== null && (
+          <p className="text-blue-600 font-semibold mt-2">
+            As low as ${startingPrice.toFixed(2)}
           </p>
         )}
       </div>

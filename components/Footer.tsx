@@ -5,16 +5,16 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-100 border-t mt-12 py-8">
-      <div className="container mx-auto px-4 text-center text-gray-600">
+    <footer className="bg-gray-800 text-gray-300 mt-12 py-8">
+      <div className="container mx-auto px-4 text-center">
         <div className="flex justify-center space-x-6 mb-4">
-          <Link href="/about" className="hover:text-gray-900">
+          <Link href="/about" className="hover:text-white transition-colors">
             About Us
           </Link>
-          <Link href="/contact" className="hover:text-gray-900">
+          <Link href="/contact" className="hover:text-white transition-colors">
             Contact
           </Link>
-          <Link href="/privacy-policy" className="hover:text-gray-900">
+          <Link href="/privacy-policy" className="hover:text-white transition-colors">
             Privacy Policy
           </Link>
         </div>
