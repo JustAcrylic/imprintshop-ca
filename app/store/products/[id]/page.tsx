@@ -18,7 +18,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     .single();
 
   if (!product) {
-    notFound(); // This will show a standard 404 page if no product is found
+    notFound();
   }
 
   return (
@@ -37,12 +37,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <h1 className="text-4xl font-bold text-gray-800">{product.name}</h1>
           <p className="text-lg text-gray-500 mt-2">{product.category}</p>
           <p className="mt-4 text-gray-700">{product.description}</p>
-          
-          {/* Add your PricingSlider component here later */}
-          <div className="mt-6 p-4 bg-gray-100 rounded-lg">
-            <h2 className="font-bold text-xl">Pricing</h2>
-            {/* You will implement the dynamic pricing slider here */}
-          </div>
         </div>
       </div>
     </div>
