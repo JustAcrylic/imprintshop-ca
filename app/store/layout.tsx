@@ -1,17 +1,28 @@
-// app/store/layout.tsx
-import React from 'react';
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
-export default function StoreLayout({
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "ImprintShop.ca",
+  description: "Your source for custom branded merchandise in Canada.",
+};
+
+export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <section>
-      {/* You can add a shared header or sidebar for the store here */}
-      <nav></nav>
- 
-      {children}
-    </section>
+    <html lang="en">
+      <body className={inter.className}>
+        <Header />
+        {children}
+        <Footer />
+      </body>
+    </html>
   );
 }
