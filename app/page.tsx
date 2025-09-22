@@ -1,4 +1,4 @@
-import Link from 'next/link';
+// app/page.tsx
 import CategoryCard from '@/components/CategoryCard';
 import { CubeTransparentIcon, PencilIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline';
 
@@ -19,7 +19,7 @@ export default async function HomePage() {
       {/* Hero Section */}
       <section className="bg-white py-12 md:py-20 border-b">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-3xl md:text-5xl font-bold text-gray-800">You'll shine. We'll make certain.</h1>
+          <h1 className="text-3xl md:text-5xl font-bold text-gray-800">You&apos;ll shine. We&apos;ll make certain.</h1>
           <p className="text-md md:text-xl text-gray-600 mt-4 max-w-2xl mx-auto">
             It&apos;s your logo, so it has to be perfect. The perfect product, perfectly printed and delivered on-time. That&apos;s certainty. <span className="font-semibold">And it&apos;s our promise to you.</span>
           </p>
@@ -54,7 +54,7 @@ export default async function HomePage() {
             <div className="bg-white p-6 rounded-lg shadow-sm">
               <PaperAirplaneIcon className="h-12 w-12 text-brand-blue mb-4" />
               <h3 className="font-bold text-lg">3. Approve & Ship</h3>
-              <p className="text-sm text-gray-600 mt-2">Once you approve your final proof, we'll get to work printing and shipping your order on time.</p>
+              <p className="text-sm text-gray-600 mt-2">Once you approve your final proof, we&apos;ll get to work printing and shipping your order on time.</p>
             </div>
           </div>
         </div>
