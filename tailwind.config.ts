@@ -9,12 +9,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'brand-blue': '#005f9e',
-        'brand-blue-dark': '#004c7e',
-        'brand-gray': '#f5f5f5',
+        'primary': '#005f9e', // A deep, trustworthy blue
+        'primary-dark': '#004c7e',
+        'secondary': '#f3f4f6', // A light gray for backgrounds
+        'accent': '#10b981', // A modern green for call-to-action buttons
       },
       fontFamily: {
-        sans: ['"Helvetica Neue"', 'Arial', 'sans-serif'],
+        sans: ['Inter', 'sans-serif'],
       },
     },
   },
