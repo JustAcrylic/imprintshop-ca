@@ -20,9 +20,10 @@ export default async function HomePage() {
       {/* Hero Section */}
       <section className="bg-brand-gray py-12 md:py-20">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-3xl md:text-5xl font-bold text-gray-800">You'll shine. We'll make certain.</h1>
+          {/* The fix is in the line below */}
+          <h1 className="text-3xl md:text-5xl font-bold text-gray-800">You&apos;ll shine. We&apos;ll make certain.</h1>
           <p className="text-md md:text-xl text-gray-600 mt-4 max-w-2xl mx-auto">
-            It's your logo, so it has to be perfect. The perfect product, perfectly printed and delivered on-time. That's certainty. <span className="font-semibold">And it's our promise to you.</span>
+            It&apos;s your logo, so it has to be perfect. The perfect product, perfectly printed and delivered on-time. That&apos;s certainty. <span className="font-semibold">And it&apos;s our promise to you.</span>
           </p>
           <Link href="#" className="text-brand-blue font-semibold mt-4 inline-block">
             Our Promise
@@ -39,8 +40,6 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
-
-      {/* You can add a Featured Brands section here later */}
     </>
   );
 }
