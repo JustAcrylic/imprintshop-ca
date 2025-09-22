@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Inter } from "next/font/google"; // Import Inter font
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { CartProvider } from "@/context/CartContext";
 
-const poppins = Poppins({ 
-  subsets: ["latin"],
-  weight: ['400', '600', '700'] 
-});
+const inter = Inter({ subsets: ["latin"] }); // Configure Inter
 
 export const metadata: Metadata = {
   title: "ImprintShop.ca - Promotional Products Canada",
@@ -22,10 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${poppins.className} flex flex-col min-h-screen bg-gray-50`}>
+      <body className={`${inter.className} flex flex-col min-h-screen`}>
         <CartProvider>
           <Header />
-          <main className="flex-grow">
+          <main className="flex-grow bg-secondary">
             {children}
           </main>
           <Footer />
