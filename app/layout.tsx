@@ -1,11 +1,11 @@
 // app/layout.tsx
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google"; // Import a new font
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { CartProvider } from "@/context/CartContext"; // Import CartProvider
 
-// Configure the font
 const poppins = Poppins({ 
   subsets: ["latin"],
   weight: ['400', '600', '700'] 
@@ -23,13 +23,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* Use the new font class and flexbox for layout */}
-      <body className={`${poppins.className} flex flex-col min-h-screen`}>
-        <Header />
-        <main className="flex-grow">
-          {children}
-        </main>
-        <Footer />
+      <body className={`${poppins.className} flex flex-col min-h-screen bg-gray-50`}>
+        <CartProvider> {/* Wrap with CartProvider */}
+          <Header />
+          <main className="flex-grow">
+            {children}
+          </main>
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

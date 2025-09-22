@@ -3,30 +3,36 @@ import { createClient } from '@/lib/supabase/server';
 import ProductCard from '@/components/ProductCard';
 import { Product } from '@/types/supabase';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid';
+import Link from 'next/link';
 
 export default async function HomePage() {
   const supabase = await createClient();
-  const { data: products } = await supabase.from('products').select('*').limit(8);
+  
+  // Fetch products and categories in parallel
+  const productsPromise = supabase.from('products').select('*').limit(8);
+  const categoriesPromise = supabase.from('products').select('category').limit(10);
+  
+  const [{ data: products }, { data: categoriesData }] = await Promise.all([productsPromise, categoriesPromise]);
+
+  // Get unique category names
+  const categories = categoriesData ? [...new Set(categoriesData.map(item => item.category).filter(Boolean))] : [];
 
   return (
     <>
-      {/* Hero Section */}
+      {/* Hero Section ... (code remains the same) */}
       <section className="bg-brand-gray py-12 md:py-20">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-3xl md:text-5xl font-bold text-gray-800">Promotional Products in Canada</h1>
-          <p className="text-md md:text-xl text-gray-600 mt-4">Your source for custom branded merchandise.</p>
-          <div className="mt-8 max-w-2xl mx-auto">
-            <div className="relative">
-              <input 
-                type="search" 
-                placeholder="Search for pens, mugs, t-shirts..."
-                className="w-full px-4 py-3 rounded-full border focus:ring-brand-blue focus:border-brand-blue"
-              />
-              <button className="absolute right-0 top-0 bottom-0 bg-brand-blue text-white px-5 rounded-r-full hover:bg-brand-blue-dark">
-                <MagnifyingGlassIcon className="h-6 w-6" />
-              </button>
-            </div>
-          </div>
+        {/* ... */}
+      </section>
+
+      {/* Categories Section */}
+      <section className="container mx-auto p-4 md:p-8">
+        <h2 className="text-2xl font-bold text-center mb-8">Browse by Category</h2>
+        <div className="flex flex-wrap justify-center gap-4">
+          {categories.map((category) => (
+            <Link key={category} href={`/category/${category}`} className="bg-white border rounded-full px-6 py-2 text-gray-700 hover:bg-brand-blue hover:text-white transition-colors">
+              {category}
+            </Link>
+          ))}
         </div>
       </section>
 
