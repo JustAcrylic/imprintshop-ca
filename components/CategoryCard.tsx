@@ -1,4 +1,3 @@
-// components/CategoryCard.tsx
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -11,7 +10,7 @@ interface CategoryCardProps {
 export default function CategoryCard({ name, imageUrl, href }: CategoryCardProps) {
   return (
     <Link href={href} className="flex flex-col items-center text-center group">
-      <div className="relative h-32 w-32 rounded-full overflow-hidden border-2 border-transparent group-hover:border-brand-blue transition-all duration-300">
+      <div className="relative h-24 w-24 sm:h-32 sm:w-32 rounded-full overflow-hidden border-2 border-gray-200 group-hover:border-brand-blue transition-all duration-300">
         <Image
           src={imageUrl}
           alt={name}
